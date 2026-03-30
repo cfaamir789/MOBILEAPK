@@ -1,6 +1,7 @@
 # MOBILEAPK
 
-> **🚨 SETUP REQUIRED:** If you're seeing a 404 error on GitHub Pages, you need to **[merge Pull Request #2](https://github.com/cfaamir789/MOBILEAPK/pull/2)** to deploy to the `main` branch. See [SETUP_INSTRUCTIONS.md](SETUP_INSTRUCTIONS.md) for details.
+> **🚨 404 ERROR FIX:** GitHub Pages is not enabled! **[Click here for the 3-step fix →](FIX_404_NOW.md)**  
+> Quick fix: Go to [Settings → Pages](https://github.com/cfaamir789/MOBILEAPK/settings/pages) and set Source to "GitHub Actions"
 
 [![Live Preview](https://img.shields.io/badge/Live%20Preview-GitHub%20Pages-blue?style=for-the-badge&logo=github)](https://cfaamir789.github.io/MOBILEAPK/)
 [![Build APK](https://github.com/cfaamir789/MOBILEAPK/workflows/Build%20Android%20APK/badge.svg)](https://github.com/cfaamir789/MOBILEAPK/actions)
