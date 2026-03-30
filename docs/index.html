@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOBILEAPK – Live Preview</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px 40px;
+      color: #fff;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #e94560, #0f3460, #533483);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #a0aec0;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    /* ── Phone frame ── */
+    .phone-wrap {
+      position: relative;
+      width: min(340px, 90vw);
+    }
+
+    .phone {
+      background: #1a1a2e;
+      border-radius: 48px;
+      border: 3px solid #e94560;
+      box-shadow:
+        0 0 0 2px #0f3460,
+        0 0 40px rgba(233,69,96,0.35),
+        0 30px 80px rgba(0,0,0,0.6);
+      padding: 20px 14px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* notch */
+    .phone::before {
+      content: '';
+      display: block;
+      width: 90px;
+      height: 22px;
+      background: #111;
+      border-radius: 0 0 16px 16px;
+      margin: 0 auto 10px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* home bar */
+    .phone::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 2px;
+      margin: 10px auto 0;
+    }
+
+    /* side buttons */
+    .btn-volume, .btn-power {
+      position: absolute;
+      background: #e94560;
+      border-radius: 3px;
+    }
+    .btn-volume {
+      left: -5px;
+      top: 110px;
+      width: 4px;
+      height: 44px;
+      box-shadow: 0 -20px 0 #e94560, 0 -22px 0 2px #0f3460;
+    }
+    .btn-power {
+      right: -5px;
+      top: 130px;
+      width: 4px;
+      height: 56px;
+    }
+
+    /* ── Screen ── */
+    .screen {
+      background: #0d0d1a;
+      border-radius: 32px;
+      overflow: hidden;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Status bar */
+    .status-bar {
+      background: #111;
+      padding: 6px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.65rem;
+      color: #ccc;
+    }
+    .status-bar .time { font-weight: 700; }
+    .status-icons { display: flex; gap: 6px; align-items: center; }
+    .status-icons svg { width: 14px; height: 14px; fill: #ccc; }
+
+    /* Top app bar */
+    .app-bar {
+      background: linear-gradient(90deg, #e94560, #533483);
+      padding: 14px 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .app-bar .app-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .app-bar h2 { font-size: 1rem; font-weight: 700; color: #fff; }
+    .app-bar p  { font-size: 0.7rem; color: rgba(255,255,255,0.75); }
+
+    /* Content area */
+    .content {
+      flex: 1;
+      padding: 14px 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Cards */
+    .card {
+      background: #16213e;
+      border-radius: 14px;
+      padding: 14px;
+      border: 1px solid rgba(233,69,96,0.15);
+      transition: transform 0.15s, box-shadow 0.15s;
+      cursor: pointer;
+    }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(233,69,96,0.25); }
+    .card-title { font-size: 0.82rem; font-weight: 700; color: #e94560; margin-bottom: 4px; }
+    .card-body  { font-size: 0.72rem; color: #a0aec0; line-height: 1.5; }
+
+    /* Banner */
+    .banner {
+      background: linear-gradient(135deg, #e94560, #533483);
+      border-radius: 14px;
+      padding: 18px 14px;
+      text-align: center;
+    }
+    .banner h3 { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+    .banner p  { font-size: 0.72rem; opacity: 0.85; }
+
+    /* Stats row */
+    .stats { display: flex; gap: 8px; }
+    .stat  {
+      flex: 1; background: #16213e; border-radius: 12px;
+      padding: 10px; text-align: center;
+      border: 1px solid rgba(83,52,131,0.4);
+    }
+    .stat-val { font-size: 1.2rem; font-weight: 800; color: #e94560; }
+    .stat-lbl { font-size: 0.62rem; color: #718096; margin-top: 2px; }
+
+    /* Bottom nav */
+    .bottom-nav {
+      background: #111;
+      padding: 10px 0 6px;
+      display: flex;
+      justify-content: space-around;
+    }
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center;
+      font-size: 0.6rem; color: #718096; gap: 3px;
+      cursor: pointer; transition: color 0.15s;
+    }
+    .nav-item.active, .nav-item:hover { color: #e94560; }
+    .nav-item svg { width: 20px; height: 20px; }
+
+    /* ── Download badge ── */
+    .badge-row {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      justify-content: center; margin-top: 32px;
+    }
+    .badge {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(233,69,96,0.4);
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .badge:hover {
+      background: rgba(233,69,96,0.15);
+      border-color: #e94560;
+    }
+
+    /* Pulse animation on screen glow */
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 2px #0f3460, 0 0 40px rgba(233,69,96,0.35), 0 30px 80px rgba(0,0,0,0.6); }
+      50%       { box-shadow: 0 0 0 2px #0f3460, 0 0 60px rgba(233,69,96,0.55), 0 30px 80px rgba(0,0,0,0.6); }
+    }
+    .phone { animation: pulse-glow 3s ease-in-out infinite; }
+  </style>
+</head>
+<body>
+
+  <h1>MOBILEAPK</h1>
+  <p class="subtitle">Live Preview &nbsp;·&nbsp; Interactive Demo</p>
+
+  <div class="phone-wrap">
+    <div class="btn-volume"></div>
+    <div class="btn-power"></div>
+
+    <div class="phone">
+      <div class="screen">
+
+        <!-- Status bar -->
+        <div class="status-bar">
+          <span class="time" id="clock">9:41</span>
+          <div class="status-icons">
+            <!-- Signal -->
+            <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 0 0-6 0zm-4-4 2 2a7.074 7.074 0 0 1 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+            <!-- Battery -->
+            <svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+          </div>
+        </div>
+
+        <!-- App bar -->
+        <div class="app-bar">
+          <div class="app-icon">📱</div>
+          <div>
+            <h2>MobileAPK</h2>
+            <p>Live Preview Mode</p>
+          </div>
+        </div>
+
+        <!-- Scrollable content -->
+        <div class="content">
+
+          <div class="banner">
+            <h3>🚀 Welcome!</h3>
+            <p>This is the live preview of your mobile application. Scroll to explore.</p>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-val">4.8</div>
+              <div class="stat-lbl">Rating</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">10K+</div>
+              <div class="stat-lbl">Downloads</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">v1.0</div>
+              <div class="stat-lbl">Version</div>
+            </div>
+          </div>
+
+          <div class="card" onclick="this.style.borderColor='#e94560'">
+            <div class="card-title">✨ Features</div>
+            <div class="card-body">
+              Tap to explore all features packed inside this powerful mobile application.
+            </div>
+          </div>
+
+          <div class="card" onclick="this.style.borderColor='#e94560'">
+            <div class="card-title">🔔 Notifications</div>
+            <div class="card-body">
+              Stay up-to-date with real-time push notifications and alerts.
+            </div>
+          </div>
+
+          <div class="card" onclick="this.style.borderColor='#e94560'">
+            <div class="card-title">⚙️ Settings</div>
+            <div class="card-body">
+              Customize your experience with a wide range of user preferences.
+            </div>
+          </div>
+
+          <div class="card" onclick="this.style.borderColor='#e94560'">
+            <div class="card-title">🔒 Privacy & Security</div>
+            <div class="card-body">
+              Your data is encrypted end-to-end and never shared with third parties.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom nav -->
+        <div class="bottom-nav">
+          <div class="nav-item active">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Home
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            Explore
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+            Alerts
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            Profile
+          </div>
+        </div>
+
+      </div><!-- /.screen -->
+    </div><!-- /.phone -->
+  </div><!-- /.phone-wrap -->
+
+  <div class="badge-row">
+    <a class="badge" href="https://github.com/cfaamir789/MOBILEAPK" target="_blank" rel="noopener">
+      ⭐ View on GitHub
+    </a>
+  </div>
+
+  <script>
+    // Live clock in status bar
+    function updateClock() {
+      const now = new Date();
+      const h = now.getHours().toString().padStart(2, '0');
+      const m = now.getMinutes().toString().padStart(2, '0');
+      document.getElementById('clock').textContent = h + ':' + m;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Nav item activation
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
