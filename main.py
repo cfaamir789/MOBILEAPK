@@ -5,6 +5,7 @@ main.py - Inventory Manager Android App (Kivy/KivyMD)
 import os
 from kivy.utils import platform
 from kivy.lang import Builder
+from kivy.metrics import dp
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty, NumericProperty, ListProperty
 from kivy.clock import Clock
@@ -395,14 +396,11 @@ class InventoryApp(MDApp):
             ))
             return
 
-        from kivy.metrics import dp
         for t in transactions:
             card = self._build_transaction_card(t)
             container.add_widget(card)
 
     def _build_transaction_card(self, t):
-        from kivy.metrics import dp
-
         card = MDCard(
             orientation="vertical",
             padding=dp(10),
@@ -415,14 +413,15 @@ class InventoryApp(MDApp):
         info_layout = MDBoxLayout(orientation="vertical", spacing=dp(2))
 
         def lbl(text, style="Body2"):
-            l = MDLabel(
+            label = MDLabel(
                 text=text,
+                markup=True,
                 font_style=style,
                 theme_text_color="Primary",
                 size_hint_y=None,
                 height=dp(22),
             )
-            return l
+            return label
 
         info_layout.add_widget(lbl(f"[b]#{t['id']}[/b]  {t['item_no']} - {t['description'][:30]}", "Body1"))
         info_layout.add_widget(lbl(f"Picker: {t['picker_name']}   Cat: {t['category_code']}"))
@@ -458,8 +457,6 @@ class InventoryApp(MDApp):
         return card
 
     def open_edit_dialog(self, trans_id, record):
-        from kivy.metrics import dp
-
         content = MDBoxLayout(
             orientation="vertical",
             spacing=dp(12),
@@ -530,8 +527,6 @@ class InventoryApp(MDApp):
     # ── Analytics Screen ─────────────────────────────────────────────────────
 
     def refresh_analytics(self):
-        from kivy.metrics import dp
-
         screen = self.root.get_screen("analytics")
         container = screen.ids.analytics_container
         container.clear_widgets()
