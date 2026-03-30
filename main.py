@@ -53,7 +53,7 @@ ScreenManager:
             size_hint: 1, None
             height: self.minimum_height
 
-            Widget:
+            Widget:  # top spacer
                 size_hint_y: None
                 height: dp(40)
 
@@ -308,8 +308,8 @@ class InventoryApp(MDApp):
         screen.ids.picker_label.text = f"Picker: {picker}"
         screen.ids.category_label.text = f"Category: {item['category_code']}"
         # Sync both input fields
-        screen.ids.barcode_input.text = item.get("barcode", "")
-        screen.ids.itemno_input.text = item.get("item_no", "")
+        screen.ids.barcode_input.text = item["barcode"]
+        screen.ids.itemno_input.text = item["item_no"]
 
     def lookup_by_barcode(self, barcode):
         barcode = barcode.strip()
