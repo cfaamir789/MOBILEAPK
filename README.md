@@ -1,8 +1,12 @@
 # MOBILEAPK
 
 [![Live Preview](https://img.shields.io/badge/Live%20Preview-GitHub%20Pages-blue?style=for-the-badge&logo=github)](https://cfaamir789.github.io/MOBILEAPK/)
+[![Build APK](https://github.com/cfaamir789/MOBILEAPK/workflows/Build%20Android%20APK/badge.svg)](https://github.com/cfaamir789/MOBILEAPK/actions)
+[![Latest Release](https://img.shields.io/github/v/release/cfaamir789/MOBILEAPK?style=for-the-badge)](https://github.com/cfaamir789/MOBILEAPK/releases/latest)
 
-## 📱 Live Preview
+A mobile application with both web preview and native Android APK.
+
+## 📱 Live Web Preview
 
 View the interactive live preview of this mobile app directly in your browser:
 
@@ -14,11 +18,64 @@ The preview shows a realistic Android phone frame with:
 - Scrollable content cards
 - Tap interactions on each card
 
+## 📥 Download Android APK
+
+**[⬇️ Download Latest APK](https://github.com/cfaamir789/MOBILEAPK/releases/latest)**
+
+### Installation Instructions:
+
+1. **Download** the APK file from the [latest release](https://github.com/cfaamir789/MOBILEAPK/releases/latest)
+2. **Enable Unknown Sources**:
+   - Go to your Android device's **Settings**
+   - Navigate to **Security** or **Privacy**
+   - Enable **"Install from Unknown Sources"** or **"Install Unknown Apps"**
+3. **Install** the APK:
+   - Open your device's file manager or downloads folder
+   - Tap on the downloaded APK file
+   - Follow the installation prompts
+4. **Launch** the MobileAPK app from your app drawer
+
+### Minimum Requirements:
+- Android 5.0 (API level 21) or higher
+- ~10 MB storage space
+
+## 🔨 Building from Source
+
+To build the APK yourself:
+
+```bash
+cd android
+./gradlew assembleRelease
+```
+
+The APK will be generated at: `android/app/build/outputs/apk/release/app-release-unsigned.apk`
+
 ## 🚀 Deployment
 
-The live preview is automatically deployed to **GitHub Pages** on every push to `main` via the included GitHub Actions workflow (`.github/workflows/deploy-pages.yml`).
+### Web Preview (GitHub Pages)
+The live preview is automatically deployed to **GitHub Pages** on every push to `main` via the workflow `.github/workflows/deploy-pages.yml`.
 
-To enable GitHub Pages for your fork:
-1. Go to **Settings → Pages**
-2. Set **Source** to **GitHub Actions**
-3. Push to `main` — the workflow will deploy automatically
+### Android APK Build
+The Android APK is automatically built on every push to `main` via the workflow `.github/workflows/build-apk.yml` and published to GitHub Releases.
+
+## 🛠️ Development
+
+### Project Structure
+```
+├── index.html                    # Web preview
+├── android/                      # Android app source
+│   ├── app/
+│   │   ├── src/main/
+│   │   │   ├── java/com/mobileapk/
+│   │   │   │   └── MainActivity.java
+│   │   │   ├── res/              # Resources
+│   │   │   └── AndroidManifest.xml
+│   │   └── build.gradle          # App-level Gradle config
+│   ├── build.gradle              # Project-level Gradle config
+│   └── settings.gradle
+└── .github/workflows/            # CI/CD workflows
+```
+
+## 📄 License
+
+This project is open source and available for educational purposes.
