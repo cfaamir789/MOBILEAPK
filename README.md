@@ -1,5 +1,7 @@
 # MOBILEAPK
 
+> **🚨 SETUP REQUIRED:** If you're seeing a 404 error on GitHub Pages, you need to **[merge Pull Request #2](https://github.com/cfaamir789/MOBILEAPK/pull/2)** to deploy to the `main` branch. See [SETUP_INSTRUCTIONS.md](SETUP_INSTRUCTIONS.md) for details.
+
 [![Live Preview](https://img.shields.io/badge/Live%20Preview-GitHub%20Pages-blue?style=for-the-badge&logo=github)](https://cfaamir789.github.io/MOBILEAPK/)
 [![Build APK](https://github.com/cfaamir789/MOBILEAPK/workflows/Build%20Android%20APK/badge.svg)](https://github.com/cfaamir789/MOBILEAPK/actions)
 [![Latest Release](https://img.shields.io/github/v/release/cfaamir789/MOBILEAPK?style=for-the-badge)](https://github.com/cfaamir789/MOBILEAPK/releases/latest)
@@ -20,7 +22,9 @@ The preview shows a realistic Android phone frame with:
 
 ## 📥 Download Android APK
 
-**[⬇️ Download Latest APK](https://github.com/cfaamir789/MOBILEAPK/releases/latest)**
+> **📦 APK Status:** The APK will be automatically built and published after merging [PR #2](https://github.com/cfaamir789/MOBILEAPK/pull/2) to the `main` branch. Check the [Releases page](https://github.com/cfaamir789/MOBILEAPK/releases/latest) after merging.
+
+**[⬇️ Download Latest APK](https://github.com/cfaamir789/MOBILEAPK/releases/latest)** (Available after first merge to `main`)
 
 ### Installation Instructions:
 
